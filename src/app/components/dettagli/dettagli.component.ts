@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
 
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-dettagli',
@@ -12,7 +11,15 @@ import { Subscription } from 'rxjs';
 export class DettagliComponent implements OnInit {
     @Input() post!: Post;
 
-    constructor() {}
+    postSrv: any;
+
+    constructor(private route: ActivatedRoute) {
+        this.route.params.subscribe((param) => {
+            const id = +param['id'];
+            console.log(id);
+            this.post = this.postSrv.recuperaPost(id);
+        });
+    }
 
     ngOnInit(): void {}
 }
